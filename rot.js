@@ -3,7 +3,7 @@ const { program } = require("commander");
 const actionHandler = async () => {
     let { input, output } = program.opts();
 
-
+    console.log('start app')
 
 }
 
