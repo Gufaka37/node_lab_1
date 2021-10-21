@@ -3,9 +3,10 @@ const { program } = require("commander");
 const chalk = require("chalk");
 const pckg = require("./package.json");
 const stream = require("stream");
+const util = require("util");
 
 const Validator = require("./helpers/validator");
-const util = require("util");
+const DataTransform = require("./helpers/transform");
 
 const pipeline = util.promisify(stream.pipeline)
 
@@ -16,7 +17,7 @@ const codeMessage = chalk.yellow.bold("Code");
 const actionHandler = async () => {
     let { input, output, action } = program.opts();
 
-    if (!Validator.isIn(action, ["string", "array", "allAtOnce"])) {
+    if (!Validator.isIn(action, ["string", "array"])) {
         process.stderr.write(
             `${errorMessage}  \"Action must be included in the given list ['string', 'array', 'allAtOnce'] :(\"\n`
         );
@@ -30,14 +31,15 @@ const actionHandler = async () => {
     );
 
     const ReadableStream = !Validator.isEmpty(input) ? fs.createReadStream(input) : process.stdin;
-    const WriteableStream = !Validator.isEmpty(output) ? fs.createWriteStream(output, {flags: "a"}) : process.stdout;
+    const WriteableStream = !Validator.isEmpty(output) ? fs.createWriteStream(output, ) : process.stdout;
 
     try {
         await pipeline(
             ReadableStream,
-
+            new DataTransform(action),
             WriteableStream
         );
+        process.stdout.write(`Text ${action}\n`)
     } catch (e) {
         process.stderr.write(`${e.message} \n`);
         process.exit(1);
