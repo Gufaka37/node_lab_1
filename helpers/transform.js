@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const { Transform } = require("stream");
-const {stringOperation} = require("./mainOperations");
+const {stringOperation, arrayOperation} = require("./mainOperations");
 
 class DataTransform extends Transform {
     constructor(action) {
@@ -13,6 +13,7 @@ class DataTransform extends Transform {
 
         switch (this.action) {
             case "array":
+                operation = arrayOperation(chunk.toString());
                 break;
             case "string":
                 operation = stringOperation(chunk.toString());
