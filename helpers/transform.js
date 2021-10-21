@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const { Transform } = require("stream");
+const {stringOperation} = require("./mainOperations");
 
 class DataTransform extends Transform {
     constructor(action) {
@@ -8,18 +9,22 @@ class DataTransform extends Transform {
     }
 
     _transform(chunk, encoding, callback) {
-        let rot = ""
+        let operation = ""
 
         switch (this.action) {
             case "array":
                 break;
             case "string":
-                break;
-            case "allAtOnce":
+                operation = stringOperation(chunk.toString());
                 break;
             default:
                 process.stderr.write(chalk.red("✘ Error") + ' "Action not found :("\n');
                 process.exit(1);
         }
+
+        this.push(operation);
+        callback();
     }
 }
+
+module.exports = DataTransform;
