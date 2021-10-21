@@ -1,14 +1,47 @@
+const fs = require("fs");
 const { program } = require("commander");
 const chalk = require("chalk");
 const pckg = require("./package.json");
+const stream = require("stream");
+
+const Validator = require("./helpers/validator");
+const util = require("util");
+
+const pipeline = util.promisify(stream.pipeline)
 
 const { log, info } = console;
+const errorMessage = chalk.red.bold("✘ Error")
 const codeMessage = chalk.yellow.bold("Code");
 
 const actionHandler = async () => {
-    let { input, output } = program.opts();
+    let { input, output, action } = program.opts();
 
-    console.log('start app')
+    if (!Validator.isIn(action, ["string", "array", "allAtOnce"])) {
+        process.stderr.write(
+            `${errorMessage}  \"Action must be included in the given list ['string', 'array', 'allAtOnce'] :(\"\n`
+        );
+        process.exit(1);
+    }
+
+    Validator.isEmpty(input) && info (
+        chalk.white (
+            "Input text [press ENTER to execute task | press CTRL + C to exit]:"
+        )
+    );
+
+    const ReadableStream = !Validator.isEmpty(input) ? fs.createReadStream(input) : process.stdin;
+    const WriteableStream = !Validator.isEmpty(output) ? fs.createWriteStream(output, {flags: "a"}) : process.stdout;
+
+    try {
+        await pipeline(
+            ReadableStream,
+
+            WriteableStream
+        );
+    } catch (e) {
+        process.stderr.write(`${e.message} \n`);
+        process.exit(1);
+    }
 
 }
 
