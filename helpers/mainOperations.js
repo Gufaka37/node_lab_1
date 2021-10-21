@@ -12,30 +12,24 @@ function stringOperation(str) {
 
         numbersArray.forEach(number => {
             if (number % 2) {
-                if (numbersArray.indexOf(number) === 0) {
+                if (newArray[newArray.length - 1] === "-") {
                     newArray.push(number.toString());
                     newArray.push("-");
-                } else if ((numbersArray.indexOf(number) === numbersArray.length - 1)) {
-                    if (newArray[newArray.length - 1] === "-") {
-                        newArray.push(number.toString());
-                    } else {
-                        newArray.push("-");
-                        newArray.push(number.toString());
-                    }
                 } else {
-                    if (newArray[newArray.length - 1] === "-") {
-                        newArray.push(number.toString());
-                        newArray.push("-");
-                    } else {
-                        newArray.push("-");
-                        newArray.push(number.toString());
-                        newArray.push("-");
-                    }
+                    newArray.push("-");
+                    newArray.push(number.toString());
+                    newArray.push("-");
                 }
             } else {
                 newArray.push(number.toString());
             }
         });
+
+        if(newArray[0] === "-")
+            newArray.shift();
+        if(newArray[newArray.length - 1] === "-")
+            newArray.pop();
+
         return newArray.join('');
     } else if (isNaN(str)) {
         return NaN
@@ -44,3 +38,7 @@ function stringOperation(str) {
 }
 
 module.exports.stringOperation = stringOperation;
+
+function arrayOperation(array) {
+
+}
