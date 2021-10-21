@@ -31,7 +31,7 @@ const actionHandler = async () => {
     );
 
     const ReadableStream = !Validator.isEmpty(input) ? fs.createReadStream(input) : process.stdin;
-    const WriteableStream = !Validator.isEmpty(output) ? fs.createWriteStream(output, ) : process.stdout;
+    const WriteableStream = !Validator.isEmpty(output) ? fs.createWriteStream(output) : process.stdout;
 
     try {
         await pipeline(
