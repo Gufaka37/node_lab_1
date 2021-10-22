@@ -14,12 +14,17 @@ class Validator{
         return false;
     }
 
-    static isInteger(value) {
-        return (value ^ 0) === value;
-    }
-
     static isIn(value, array) {
         return array.includes(value);
+    }
+
+    static isArray(value) {
+        if (Array.isArray(value))
+            return value;
+        else {
+            process.stderr.write("Value is not an array.\n");
+            process.exit(1);
+        }
     }
 }
 

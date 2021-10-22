@@ -1,6 +1,7 @@
 const chalk = require("chalk");
 const { Transform } = require("stream");
 const {stringOperation, arrayOperation} = require("./mainOperations");
+const Validator = require("./validator");
 
 class DataTransform extends Transform {
     constructor(action) {
@@ -13,7 +14,7 @@ class DataTransform extends Transform {
 
         switch (this.action) {
             case "array":
-                operation = arrayOperation(chunk.toString());
+                operation = arrayOperation(Validator.isArray(JSON.parse(chunk)));
                 break;
             case "string":
                 operation = stringOperation(chunk.toString());
