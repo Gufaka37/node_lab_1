@@ -1,9 +1,11 @@
 {
-  "name": "Lab1",
+  "name": "node_lab_1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "string": "node app -i input.txt -o output.txt -a string",
+    "array": "node app -i input.txt -o output.txt -a array",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
