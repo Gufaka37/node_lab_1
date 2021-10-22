@@ -39,8 +39,7 @@ function stringOperation(str) {
 
 module.exports.stringOperation = stringOperation;
 
-function arrayOperation(str) {
-    let arr = str.split(",");
+function arrayOperation(arr) {
     let inversions = [];
     let inversionCount = 0;
 
